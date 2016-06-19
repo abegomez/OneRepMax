@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         Class<?>[] paramTypes = new Class[]{Double.TYPE, Double.TYPE};
         Class c = Class.forName("Algorithms");
         //Method method = alg.getDeclaredMethod(text,paramTypes);
-        return method.invoke(alg, weight, reps);
+        //return method.invoke(alg, weight, reps);
 
 
     }
