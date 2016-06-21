@@ -56,5 +56,27 @@ public class Algorithms {
 
         return num;
     }
+    public double OneRepMax(String s, int reps, double w) {
+        switch(s) {
+            case "Epley":
+                return Epley(reps, w);
+            case "Brzycki":
+                return Brzycki(reps, w);
+            case "Lander":
+                return Lander(reps, w);
+            case "Lombardi":
+                return Lombardi(reps, w);
+            case "Mayhew":
+                return Mayhew(reps, w);
+            case "OConnor":
+                return OConnor(reps, w);
+            case "Wathen":
+                return Wathen(reps, w);
+            case "Wendler":
+                return Wendler(reps, w);
+            default:
+                throw new IllegalArgumentException("Invalid day of the week: " + s);
+        }
 
+    }
 }

@@ -4,4 +4,6 @@
     <string name="one_rep">One Rep!</string>
     <string name="email_hint">your email</string>
     <string name="spinner_title">Choose algorithm</string>
+    <string name="Weight">Weight</string>
+    <string name="Reps">Reps</string>
 </resources>

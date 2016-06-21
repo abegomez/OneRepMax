@@ -15,28 +15,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/Weight"
+        android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/textView" />
+        android:layout_marginTop="42dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/one_rep"
         android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="102dp"
         android:clickable="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="onClick" />
+        android:onClick="onClick"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="numberDecimal"
+        android:text="0.0"
         android:ems="10"
         android:id="@+id/editText"
         android:background="#792d2d"
@@ -53,4 +53,24 @@
         android:layout_alignStart="@+id/editText"
         android:layout_alignRight="@+id/editText"
         android:layout_alignEnd="@+id/editText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:text="0.0"
+        android:ems="10"
+        android:id="@+id/editText2"
+        android:background="#792d2d"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Reps"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

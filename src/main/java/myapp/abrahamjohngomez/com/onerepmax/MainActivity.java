@@ -45,14 +45,11 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         spinner.setAdapter(dataAdapter);
 
     }
-    public double getMax(double weight, double reps) {
+    public double getMax(int reps, double weight) {
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         String text = spinner.getSelectedItem().toString();
         Algorithms alg = new Algorithms();
-        Class<?>[] paramTypes = new Class[]{Double.TYPE, Double.TYPE};
-        Class c = Class.forName("Algorithms");
-        //Method method = alg.getDeclaredMethod(text,paramTypes);
-        //return method.invoke(alg, weight, reps);
+        return alg.OneRepMax(text, reps, weight);
 
 
     }
@@ -69,10 +66,14 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     }
     public void onClick(View view) {
         TextView tv = (TextView)findViewById(R.id.editText);
+        TextView tv2 = (TextView)findViewById(R.id.editText2);
         String textValue = tv.getText().toString();
+        String textValue2 = tv2.getText().toString();
         double value = Double.parseDouble(textValue);
-        String max = String.valueOf(getMax(value, value));
+        int rep = Integer.parseInt(textValue2);
+        String max = String.valueOf(getMax(rep, value));
         tv.setText(max);
+        tv2.setText("1");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
