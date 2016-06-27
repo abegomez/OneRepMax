@@ -6,4 +6,6 @@
     <string name="spinner_title">Choose algorithm</string>
     <string name="Weight">Weight</string>
     <string name="Reps">Reps</string>
+    <string name="weightinlbs">Weight in lbs</string>
+    <string name="Reps110">1 "\u2013" 10 Reps</string>
 </resources>
