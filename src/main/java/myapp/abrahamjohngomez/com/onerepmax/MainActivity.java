@@ -1,5 +1,8 @@
 package myapp.abrahamjohngomez.com.onerepmax;
 
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -64,16 +69,48 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }
+    public void saveOnClick(View view) {
+        TextView tv = (TextView)findViewById(R.id.editText);
+        TextView tv2 = (TextView)findViewById(R.id.editText2);
+        TextView tv3 = (TextView)findViewById(R.id.exercisename);
+        int reps =  Integer.parseInt(tv2.getText().toString());
+        double weight = Double.parseDouble(tv.getText().toString());
+        double max = getMax(reps, weight);
+        String textValue2 = tv2.getText().toString();
+        String activityName = tv3.getText().toString();
+
+        MaxObject maxItem = new MaxObject();
+        maxItem.exerciseName = activityName;
+        maxItem.max = max;
+        final Context context = this.getBaseContext();
+        boolean createSuccessful = new TableControllerMax(context).create(maxItem);
+        if(createSuccessful) {
+            Toast.makeText(context, "Max info was saved.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Unable to save student information.", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void onClick(View view) {
         TextView tv = (TextView)findViewById(R.id.editText);
         TextView tv2 = (TextView)findViewById(R.id.editText2);
+        TextView tv3 = (TextView)findViewById(R.id.exercisenamestring);
         String textValue = tv.getText().toString();
         String textValue2 = tv2.getText().toString();
+        String activityName = tv3.getText().toString();
         double value = Double.parseDouble(textValue);
         int rep = Integer.parseInt(textValue2);
-        String max = String.valueOf(getMax(rep, value));
-        tv.setText(max);
+        double max = getMax(rep, value);
+        tv.setText(String.valueOf(max));
         tv2.setText("1");
+        MaxObject maxItem = new MaxObject();
+        maxItem.exerciseName = activityName;
+        maxItem.max = max;
+
+
+    }
+    public void viewRecords(View view) {
+        Intent intent = new Intent(this, HistoryViewActivity.class);
+        startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
