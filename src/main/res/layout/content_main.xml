@@ -17,30 +17,51 @@
         android:layout_height="wrap_content"
         android:text="@string/Weight"
         android:id="@+id/textView"
+        android:textSize="30sp"
+        android:layout_below="@+id/exercisename"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exercisenamestring"
+        android:id="@+id/exercisenamestring"
+        android:textSize="30sp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/one_rep"
         android:id="@+id/button"
-        android:layout_marginBottom="102dp"
+        android:layout_marginBottom="98dp"
         android:clickable="true"
         android:onClick="onClick"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/exercisename"
+        android:layout_alignStart="@+id/exercisename" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:text="0.0"
+        android:hint="@string/weightinlbs"
         android:ems="10"
         android:id="@+id/editText"
-        android:background="#792d2d"
         android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/exercisename" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/exercisename"
+        android:ems="10"
+        android:id="@+id/exercisename"
+        android:layout_below="@+id/exercisenamestring"
         android:layout_centerHorizontal="true" />
 
     <Spinner
@@ -58,19 +79,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:text="0.0"
+        android:hint="@string/Reps110"
         android:ems="10"
         android:id="@+id/editText2"
-        android:background="#792d2d"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/spinner"
         android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_alignLeft="@+id/spinner" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Reps"
         android:id="@+id/textView2"
+        android:textSize="30sp"
         android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/saveButton"
+        android:clickable="true"
+        android:onClick="saveOnClick"
+        android:layout_below="@+id/spinner"
+        android:layout_alignRight="@+id/spinner"
+        android:layout_alignEnd="@+id/spinner" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/viewRecords"
+        android:id="@+id/viewRecords"
+        android:layout_below="@+id/saveButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewRecords" />
 </RelativeLayout>
