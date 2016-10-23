@@ -21,8 +21,8 @@ public class TableControllerMax extends DatabaseHandler {
 
         ContentValues values = new ContentValues();
 
-        values.put("activityname", maxObject.exerciseName);
-        values.put("maxes", maxObject.max);
+        values.put("activityname", maxObject.getExerciseName());
+        values.put("maxes", maxObject.getMax());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -31,7 +31,15 @@ public class TableControllerMax extends DatabaseHandler {
 
         return createSuccessful;
     }
+    public int count() {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        String sql = "SELECT * FROM maxes";
+        int recordCount = db.rawQuery(sql, null).getCount();
+        db.close();
+
+        return recordCount;
+    }
     public List<MaxObject> read() {
         List<MaxObject> recordsList = new ArrayList<MaxObject>();
 
@@ -47,9 +55,9 @@ public class TableControllerMax extends DatabaseHandler {
                 Double max = Double.parseDouble(cursor.getString(cursor.getColumnIndex("maxes")));
 
                 MaxObject maxObject = new MaxObject();
-                maxObject.id = id;
-                maxObject.exerciseName = exerciseName;
-                maxObject.max = max;
+                maxObject.setId(id);
+                maxObject.setExerciseName(exerciseName);
+                maxObject.setMax(max);
 
                 recordsList.add(maxObject);
             }while (cursor.moveToNext());
@@ -60,4 +68,58 @@ public class TableControllerMax extends DatabaseHandler {
 
         return recordsList;
     }
+
+    public MaxObject readSingleRecord(int maxId) {
+        MaxObject maxObject = null;
+
+        String sql = "SELECT * FROM maxes WHERE id = " + maxId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
+            String exercisename = cursor.getString(cursor.getColumnIndex("activityname"));
+            double max = Double.parseDouble(cursor.getString(cursor.getColumnIndex("maxes")));
+
+            maxObject = new MaxObject();
+            maxObject.setId(id);
+            maxObject.setExerciseName(exercisename);
+            maxObject.setMax(max);
+        }
+
+        cursor.close();
+        db.close();
+
+        return maxObject;
+    }
+    public boolean update (MaxObject maxObject) {
+        ContentValues values = new ContentValues();
+
+        values.put("activityname", maxObject.getExerciseName());
+        values.put("maxes", maxObject.getMax());
+
+        String where = "id = ?";
+        String[] whereArgs = { String.valueOf(maxObject.getId()) };
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        boolean updateSuccessful = db.update("maxes", values, where, whereArgs) > 0;
+        db.close();
+
+        return updateSuccessful;
+    }
+
+    public boolean delete(int id) {
+
+        String where = "id = '" + id + "'";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        boolean deleteSuccessful = db.delete("maxes", where, null) > 0;
+        db.close();
+
+        return deleteSuccessful;
+    }
+
 }

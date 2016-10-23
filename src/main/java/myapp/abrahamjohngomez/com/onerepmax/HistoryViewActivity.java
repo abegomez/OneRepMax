@@ -18,6 +18,9 @@ public class HistoryViewActivity extends AppCompatActivity {
 
         readRecords();
     }
+    public void countrecords() {
+        int recordCount = new TableControllerMax(this).count();
+    }
     public void readRecords() {
 
         LinearLayout linearLayoutRecords = (LinearLayout) findViewById(R.id.linearLayoutRecords);
@@ -27,18 +30,16 @@ public class HistoryViewActivity extends AppCompatActivity {
 
         if(maxes.size() >0) {
             for(MaxObject obj : maxes) {
-                int id = obj.id;
-                String activityName = obj.exerciseName;
-
-                Double max = obj.max;
-
+                int id = obj.getId();
+                String activityName = obj.getExerciseName();
+                Double max = obj.getMax();
                 String textViewContents = activityName + " - " + max;
 
                 TextView textViewMaxItem = new TextView(this);
                 textViewMaxItem.setPadding(0, 10, 0, 10);
                 textViewMaxItem.setText(textViewContents);
                 textViewMaxItem.setTag(Integer.toString(id));
-
+                textViewMaxItem.setOnLongClickListener(new OnLongClickListenerMaxRecord());
                 linearLayoutRecords.addView(textViewMaxItem);
             }
         } else {

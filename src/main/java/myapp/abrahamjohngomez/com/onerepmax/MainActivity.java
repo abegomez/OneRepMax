@@ -2,37 +2,50 @@ package myapp.abrahamjohngomez.com.onerepmax;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnItemSelectedListener {
+    private EditText etActivity;
+    private EditText etReps;
+    private EditText etWeight;
+
+    private String exerciseName;
+    private Double weight;
+    private int reps;
+    private String pounds;
+    private String algorithmChoice;
+    private Spinner spinner;
+    AutoCompleteTextView tvAuto;
+    String[] EXERCISES = {"Bench Press", "Deadlift", "Squat"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, EXERCISES);
+        tvAuto = (AutoCompleteTextView) findViewById(R.id.etNameofactivity);
+        tvAuto.setThreshold(1);
+        tvAuto.setAdapter(adapter);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinnerAlgorithm);
 
         spinner.setOnItemSelectedListener(this);
 
@@ -48,70 +61,122 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-
+        countRecords();
     }
-    public double getMax(int reps, double weight) {
-        Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        String text = spinner.getSelectedItem().toString();
-        Algorithms alg = new Algorithms();
-        return alg.OneRepMax(text, reps, weight);
 
+    private MaxObject createMaxObj() {
+        etWeight = (EditText) findViewById(R.id.etWeight);
+        etReps = (EditText) findViewById(R.id.etReps);
+        etActivity = (EditText) findViewById(R.id.etNameofactivity);
+        exerciseName = etActivity.getText().toString();
 
+        try {
+            weight = Double.parseDouble(etWeight.getText().toString());
+        }catch(final NumberFormatException e){
+            weight = 100.0;
+        }
+
+        try {
+            reps = Integer.parseInt(etReps.getText().toString());
+        }catch(final NumberFormatException e) {
+            reps = 3;
+        }
+
+        try {
+            if(exerciseName.length() == 0)
+                exerciseName = "No name";
+        }catch(Exception e) {
+
+        }
+
+        MaxObject maxObject;
+        spinner = (Spinner)findViewById(R.id.spinnerAlgorithm);
+        algorithmChoice = spinner.getSelectedItem().toString();
+        maxObject = new MaxObject(algorithmChoice, exerciseName, reps, weight);
+        return maxObject;
     }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
         String item = parent.getItemAtPosition(position).toString();
 
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
+
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }
-    public void saveOnClick(View view) {
-        TextView tv = (TextView)findViewById(R.id.editText);
-        TextView tv2 = (TextView)findViewById(R.id.editText2);
-        TextView tv3 = (TextView)findViewById(R.id.exercisename);
-        int reps =  Integer.parseInt(tv2.getText().toString());
-        double weight = Double.parseDouble(tv.getText().toString());
-        double max = getMax(reps, weight);
-        String textValue2 = tv2.getText().toString();
-        String activityName = tv3.getText().toString();
 
-        MaxObject maxItem = new MaxObject();
-        maxItem.exerciseName = activityName;
-        maxItem.max = max;
+    public void saveOnClick(View view) {
+        MaxObject maxItem = createMaxObj();
+
         final Context context = this.getBaseContext();
         boolean createSuccessful = new TableControllerMax(context).create(maxItem);
         if(createSuccessful) {
             Toast.makeText(context, "Max info was saved.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Unable to save student information.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unable to save information.", Toast.LENGTH_SHORT).show();
         }
+        countRecords();
     }
     public void onClick(View view) {
-        TextView tv = (TextView)findViewById(R.id.editText);
-        TextView tv2 = (TextView)findViewById(R.id.editText2);
-        TextView tv3 = (TextView)findViewById(R.id.exercisenamestring);
-        String textValue = tv.getText().toString();
-        String textValue2 = tv2.getText().toString();
-        String activityName = tv3.getText().toString();
-        double value = Double.parseDouble(textValue);
-        int rep = Integer.parseInt(textValue2);
-        double max = getMax(rep, value);
-        tv.setText(String.valueOf(max));
-        tv2.setText("1");
-        MaxObject maxItem = new MaxObject();
-        maxItem.exerciseName = activityName;
-        maxItem.max = max;
-
-
+        MaxObject maxItem = createMaxObj();
+        displayPercentages(maxItem);
     }
-    public void viewRecords(View view) {
+
+    private void displayPercentages(MaxObject maxItem) {
+        LinearLayout linearLayoutRecords = (LinearLayout) findViewById(R.id.layoutPercentages);
+        linearLayoutRecords.removeAllViews();
+        LinearLayout linearLabel = (LinearLayout) findViewById(R.id.layoutLabels);
+        linearLabel.removeAllViews();
+        int max = (int) Math.round(maxItem.getMax());
+
+        for (int i = 100; i > 45; i-=5) {
+            int tempMax = max;
+            String textViewContents = String.valueOf(tempMax *i /100) + "lbs";
+            TextView textViewMaxItem = new TextView(this);
+            textViewMaxItem.setGravity(Gravity.CENTER);
+            textViewMaxItem.setTextSize(20);
+            textViewMaxItem.setPadding(0, 0, 0, 0);
+            textViewMaxItem.setText(textViewContents);
+            textViewMaxItem.setTag("tv"+i);
+            linearLayoutRecords.addView(textViewMaxItem);
+
+            String label = i + "%";
+            TextView textViewLabel = new TextView(this);
+            textViewLabel.setGravity(Gravity.CENTER);
+            textViewLabel.setTextSize(20);
+            textViewLabel.setPadding(0,0,0,0);
+            textViewLabel.setText(label);
+            textViewLabel.setTag("tvLabel" + i);
+            linearLabel.addView(textViewLabel);
+        }
+
+
+
+
+//        int textViewCount = 10;
+//        TextView[] tvPercentages = new TextView[textViewCount];
+//
+//        TextView showOneRep = (TextView) findViewById(R.id.tv100);
+//
+//        for
+//        showOneRep.setText(pounds+ "lbs");
+    }
+
+    public final void countRecords(){
+        int recordCount = new TableControllerMax(this).count();
+        TextView textViewRecordCount = (TextView) findViewById(R.id.textViewRecordCount);
+        textViewRecordCount.setText(recordCount +" records found.");
+    }
+
+    public final void viewRecords(View view) {
         Intent intent = new Intent(this, HistoryViewActivity.class);
         startActivity(intent);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -132,5 +197,11 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        countRecords();
     }
 }
