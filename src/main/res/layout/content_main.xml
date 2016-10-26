@@ -31,13 +31,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/exercisenamestring"
                 android:id="@+id/exercisenamestring"
-                android:textSize="25sp"
+                android:textSize="21sp"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="false"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_blue_light"
-                android:autoText="false" />
+                 />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -48,6 +48,8 @@
                 android:layout_centerHorizontal="true"
                 android:clickable="false"
                 android:foregroundTint="@color/input"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"
                 />
@@ -56,9 +58,30 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/Weight"
+                android:id="@+id/tvWeight"
+                android:textSize="21sp"
+                android:layout_marginTop="0dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_blue_light" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="@string/weightinlbs"
+                android:id="@+id/etWeight"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:textColor="@android:color/darker_gray"
+                android:textColorHint="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/Reps"
                 android:id="@+id/tvReps"
-                android:textSize="25sp"
+                android:textSize="21sp"
                 android:layout_marginTop="0dp"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_blue_light" />
@@ -70,26 +93,8 @@
                 android:hint="@string/Reps110"
                 android:ems="10"
                 android:id="@+id/etReps"
-
-                android:textColor="@android:color/darker_gray"
-                android:textColorHint="@android:color/darker_gray" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Weight"
-                android:id="@+id/tvWeight"
-                android:textSize="25sp"
-                android:layout_marginTop="0dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/holo_blue_light" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:hint="@string/weightinlbs"
-                android:id="@+id/etWeight"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray" />
 
@@ -110,13 +115,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/one_rep"
-                android:id="@+id/button"
+                android:id="@+id/btOneRep"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:layout_marginBottom="0dp"
                 android:layout_weight="1"
                 android:textSize="15sp"
-                android:textColor="@android:color/holo_blue_bright" />
+                android:textColor="@color/colorPrimary" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -127,7 +132,7 @@
                 android:onClick="saveOnClick"
                 android:layout_weight="1"
                 android:textSize="15sp"
-                android:textColor="@android:color/holo_blue_bright" />
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 
