@@ -9,17 +9,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="myapp.abrahamjohngomez.com.onerepmax.HistoryViewActivity">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ScrollView
         android:id="@+id/scrollViewRecords"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/linearLayoutRecords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_weight="2">
+
 
         </LinearLayout>
     </ScrollView>
+
+
 </RelativeLayout>

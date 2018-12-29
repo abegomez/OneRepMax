@@ -12,4 +12,5 @@
     <string name="exercisename">Name of activity</string>
     <string name="save">Save</string>
     <string name="viewRecords">View Records</string>
+    <string name="noRecordsTextMessage">No records found.</string>
 </resources>

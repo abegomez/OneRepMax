@@ -14,8 +14,8 @@ import android.widget.Toast;
  */
 public class OnLongClickListenerMaxRecord implements View.OnLongClickListener {
 
-    Context context;
-    String id;
+    private Context context;
+    private String id;
 
 
     @Override
@@ -37,14 +37,14 @@ public class OnLongClickListenerMaxRecord implements View.OnLongClickListener {
         }).show();
         return false;
     }
-    public void deleteRecord(final int maxId) {
+    private void deleteRecord(final int maxId) {
 //        final TableControllerMax tableControllerMax = new TableControllerMax(context);
         final CharSequence[] items = {"Delete", "Cancel"};
         new AlertDialog.Builder(context).setTitle("Delete?").setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int which) {
                 boolean deleteSuccessful = new TableControllerMax(context).delete(maxId);
                 if(deleteSuccessful) {
-                    Toast.makeText(context, "Record was updated.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Record was deleted.", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, "Unable to update record.", Toast.LENGTH_SHORT).show();
                 }
@@ -59,7 +59,7 @@ public class OnLongClickListenerMaxRecord implements View.OnLongClickListener {
                 .setIcon(android.R.drawable.ic_dialog_alert).show();
     }
 
-    public void editRecord(final int maxId) {
+    private void editRecord(final int maxId) {
         final TableControllerMax tableControllerMax = new TableControllerMax(context);
         MaxObject maxObject = tableControllerMax.readSingleRecord(maxId);
 

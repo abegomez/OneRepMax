@@ -3,7 +3,7 @@ package myapp.abrahamjohngomez.com.onerepmax;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.*;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,14 +57,14 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         });
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, EXERCISES);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, EXERCISES);
         tvAuto = (AutoCompleteTextView) findViewById(R.id.etNameofactivity);
         tvAuto.setThreshold(1);
         tvAuto.setAdapter(adapter);
         Spinner spinner = (Spinner) findViewById(R.id.spinnerAlgorithm);
         spinner.setOnItemSelectedListener(this);
 
-        List<String> categories = new ArrayList<String>();
+        List<String> categories = new ArrayList<>();
         categories.add("Epley");
         categories.add("Brzycki");
         categories.add("Lander");
